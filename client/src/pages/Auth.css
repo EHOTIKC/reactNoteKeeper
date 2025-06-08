@@ -1,0 +1,79 @@
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 2px solid #2196F3; /* Блакитний контур */
+  border-radius: 10px;
+  background-color: #e3f2fd; /* Світло-блакитний фон */
+  text-align: center;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.auth-form input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #90caf9; /* Світлий блакитний контур */
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+
+.auth-form button {
+  padding: 12px;
+  background-color: #2196F3; /* Основний синьо-блакитний */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button:hover {
+  background-color: #1976D2; /* Трохи темніший відтінок при наведенні */
+}
+
+.auth-link {
+  color: #1976D2; /* Блакитна ссилка */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+h2 {
+  color: #0d47a1; /* Глибокий синій заголовок */
+}
+
+.auth-form button {
+  padding: 12px;
+  background-color: #2196F3; /* Основний синьо-блакитний */
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.4s ease, color 0.4s ease; /* Плавний перехід */
+}
+
+/* При наведенні, якщо кнопка активна */
+.auth-form button:hover:enabled {
+  background-color: #1976D2; /* Трохи темніший відтінок */
+}
+
+/* Сірий колір та курсор неактивний, якщо кнопка disabled */
+.auth-form button:disabled {
+  background-color: #b0b0b0; /* Світло-сірий */
+  cursor: not-allowed;
+  color: #666666; /* Трохи темніший текст */
+  transition: background-color 0.4s ease, color 0.4s ease; /* Плавний перехід */
+}
+

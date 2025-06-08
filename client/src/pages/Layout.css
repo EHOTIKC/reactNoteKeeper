@@ -1,0 +1,101 @@
+/* Layout.css */
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1464a1;
+  color: white;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo-link h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.header:hover .logo-link {
+  opacity: 0.8;
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #3f3f3f;
+}
+
+/* Додамо стилі для кнопок скасування і видалення */
+.selection-buttons {
+  display: flex;
+  gap: 10px;
+  margin-left: auto; /* Розміщує кнопки справа */
+}
+
+.selection-buttons button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.selection-buttons button:first-child {
+  background-color: #f0f0f0; /* Сіренька кнопка */
+  color: #333;
+}
+
+.selection-buttons button:first-child:hover {
+  background-color: #dcdcdc;
+}
+
+.selection-buttons button:last-child {
+  background-color: #e74c3c; /* Червона кнопка */
+  color: white;
+}
+
+.selection-buttons button:last-child:hover {
+  background-color: #c0392b;
+}
+
+
+/* Додаємо стилі для кнопок входу/виходу */
+.auth-buttons {
+  margin-left: auto;
+}
+
+.auth-buttons button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #3498db; /* Блакитна кнопка */
+  color: white;
+}
+
+.auth-buttons button:hover {
+  background-color: #2980b9; /* Темніший відтінок при наведенні */
+}
+
+.auth-buttons a {
+  text-decoration: none;
+}
+
+.auth-buttons a button {
+  background-color: #27ae60; /* Зелена кнопка для входу */
+}
+
+.auth-buttons a button:hover {
+  background-color: #1e8449; /* Темно-зелений при наведенні */
+}

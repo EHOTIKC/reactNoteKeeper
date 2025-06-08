@@ -1,0 +1,101 @@
+.app-container {
+  min-height: 100vh;        /* займає всю висоту вікна */
+  display: flex;
+  flex-direction: column;
+}
+
+
+.header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 24px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+.footer {
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+.note-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+}
+
+.note-text {
+  flex: 1;
+}
+.note-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.edit-btn,
+.delete-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.edit-btn {
+  background-color: #ffc107;
+}
+.delete-btn {
+  background-color: #dc3545;
+}
+.edit-btn:hover{
+    background-color: #e0a800;
+}
+.delete-btn:hover{
+    background-color: #c82333;
+}
+
+.note {
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 15px auto;
+  width: 650px;
+  max-width: 90%;
+  background-color: #e6f0ff;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+.notes-list {
+    flex-grow: 1; 
+    list-style-type: none;
+    padding: 0;
+
+  background-color: #f8f9fa;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+
+.notes-scroll-container {
+  max-height: 1000px; /* або 60vh, якщо відносно вікна */
+  overflow-y: auto;
+  padding-right: 8px; /* щоб скрол не перекривав контент */
+}
+
+/* Якщо треба, налаштуй .notes-list */
+.notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

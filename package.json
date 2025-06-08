@@ -1,0 +1,21 @@
+{
+  "name": "fullstack-app",
+  "scripts": {
+    "client": "npm start --prefix client",
+    "server": "node server/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "lorem-ipsum": "^2.0.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^7.6.1",
+    "react-router-dom": "^7.6.1"
+  }
+}

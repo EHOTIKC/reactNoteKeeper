@@ -1,0 +1,31 @@
+.EmptyNote{
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 15px auto;
+    width: 650px;
+    max-width: 90%;
+    background-color: #e6f0ff;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.add-notes{
+    background: #71bdff1a;
+    font-size: 40px;
+    color: #007bff;
+    border: 0px solid #00000000;
+    width: 80%;
+    height: 80%;
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+.add-notes:hover{
+    background: #65b7ff4c;
+    width: 90%;
+    height: 90%;
+
+}
