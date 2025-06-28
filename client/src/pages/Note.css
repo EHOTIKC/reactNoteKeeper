@@ -64,3 +64,46 @@
   padding: 5px 10px;
   font-size: 16px;
 }
+
+
+/* .checklist li.checked {
+  text-decoration: line-through;
+  color: gray;
+}
+.checklist input[type="checkbox"] {
+  margin-right: 1px;
+}
+
+
+.note-editor ul,
+.note-editor ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.note-editor li {
+  margin: 2px 0;
+  padding: 0;
+  list-style: none; 
+} */
+
+.note-editor ul,
+.note-editor ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.note-editor li {
+  margin: 2px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note-editor .checklist input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.note-editor li.checked {
+  text-decoration: line-through;
+  color: gray;
+}

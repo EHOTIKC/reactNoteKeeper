@@ -22,3 +22,9 @@
 .note:hover {
   transform: scale(1.02);
 }
+
+
+.note-content li.checked {
+  text-decoration: line-through;
+  color: gray;
+}

@@ -87,6 +87,86 @@ function Note() {
     document.execCommand(command, false, null);
   };
 
+const makeChecklist = () => {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
+
+  const editor = document.querySelector('.note-editor');
+  if (!editor.contains(selection.anchorNode)) return;
+
+  const range = selection.getRangeAt(0);
+  const selectedFragment = range.cloneContents();
+  const container = document.createElement('div');
+  container.appendChild(selectedFragment);
+
+  const containsOnlyChecklist = container.querySelectorAll('ul.checklist').length > 0 &&
+    container.querySelectorAll('ul.checklist').length === container.children.length;
+
+  if (containsOnlyChecklist) {
+    // 🔄 Перетворення ЧЕКЛИСТА на ТЕКСТ з <br>
+    const listItems = container.querySelectorAll('ul.checklist li');
+    const lines = Array.from(listItems).map((li) => li.textContent.trim());
+
+    range.deleteContents();
+    const fragment = document.createDocumentFragment();
+    lines.forEach((line) => {
+      fragment.appendChild(document.createTextNode(line));
+      fragment.appendChild(document.createElement('br'));
+    });
+    range.insertNode(fragment);
+  } else {
+    // ➕ Створення або доповнення ЧЕКЛИСТУ
+    const existingChecklist = container.querySelector('ul.checklist');
+    const listItems = [];
+
+    if (existingChecklist) {
+      const existingLis = existingChecklist.querySelectorAll('li');
+      existingLis.forEach((li) => {
+        const text = li.textContent.trim();
+        if (text) {
+          listItems.push(
+            `<li><input type="checkbox" onclick="this.parentNode.classList.toggle('checked')" ${
+              li.classList.contains('checked') ? 'checked' : ''
+            }> ${text}</li>`
+          );
+        }
+      });
+    }
+
+    container.childNodes.forEach((node) => {
+      if (
+        node.nodeType === 1 &&
+        (node.tagName === 'UL' || node.tagName === 'OL')
+      )
+        return;
+
+      const text = node.textContent?.trim();
+      if (text) {
+        listItems.push(
+          `<li><input type="checkbox" onclick="this.parentNode.classList.toggle('checked')"> ${text}</li>`
+        );
+      }
+    });
+
+    if (listItems.length === 0) return;
+
+    const checklistHtml = `<ul class="checklist">${listItems.join('')}</ul>`;
+    range.deleteContents();
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = checklistHtml;
+    const frag = document.createDocumentFragment();
+    let node;
+    while ((node = tempDiv.firstChild)) {
+      frag.appendChild(node);
+    }
+    range.insertNode(frag);
+  }
+};
+
+
+
+
   if (loading) return <p>Завантаження...</p>;
 
   return (
@@ -103,6 +183,7 @@ function Note() {
         <button onClick={() => applyFormat('bold')}><b>B</b></button>
         <button onClick={() => applyFormat('italic')}><i>I</i></button>
         <button onClick={() => applyFormat('underline')}><u>U</u></button>
+        <button onClick={makeChecklist}>Список</button>
       </div>
       <div
         ref={editorRef}

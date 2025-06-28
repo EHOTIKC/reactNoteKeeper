@@ -1,21 +1,4 @@
-/* .note {
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  transition: background-color 0.3s ease;
-} */
 
-/* NoteItem.css */
-/* .note {
-  background-color: white;
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 8px;
-  transition: background-color 0.3s, transform 0.3s;
-} */
 .note-content {
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -26,28 +9,18 @@
   max-width: 35ch;
   line-height: 1.2em;
 
-  word-break: break-word; /* ⬅️ Оце головне для довгих слів */
+  word-break: break-word;
 }
 
 
 
 
 .note.selected {
-  background-color: #d0e6ff; /* Світло-блакитний фон для обраних */
+  background-color: #d0e6ff;
   transform: scale(1.05);
   border: 2px solid #3399ff;
 }
 
-/* .note-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-} */
-
-/* .completed-note {
-  opacity: 0.5;
-  text-decoration: line-through;
-} */
 
 .edit-btn {
   margin-top: 10px;
@@ -79,6 +52,25 @@ li {
   border-radius: 8px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+
+.note-content ul,
+.note-content ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.note-content li {
+  margin: 2px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.note-content li.checked {
+  text-decoration: line-through;
+  color: gray;
+}
+
 
 /* NoteItem.css */
 @keyframes slideOutLeft {
