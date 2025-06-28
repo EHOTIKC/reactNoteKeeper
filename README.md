@@ -7,7 +7,7 @@
 
 ## 🚀 Demo
 
- [Live Demo (add after deploy)](https://your-demo-url.com)
+ [Live Demo (not deployed)]
 
  *Demo account:*  
 Email: `qwe`  
