@@ -36,15 +36,14 @@ app.get("/api/note", async (req, res) => {
 
 // Підключення фронтенду для продакшн
 if (process.env.NODE_ENV === "production") {
-  // Визначаємо реальний шлях до build
-  const buildPath = path.join(__dirname, "client", "build");
+  app.use(express.static(path.join(__dirname, "../client/build")));
 
-  app.use(express.static(buildPath));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(buildPath, "index.html"));
+  app.all('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build", "index.html"));
   });
 }
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Сервер працює на порті ${PORT}`);
