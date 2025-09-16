@@ -38,11 +38,11 @@ app.get("/api/note", async (req, res) => {
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 
-
-  app.all('/*', (req, res) => {
+  app.use((req, res, next) => {
     res.sendFile(path.join(__dirname, "../client/build", "index.html"));
   });
 }
+
 
 
 app.listen(PORT, () => {
