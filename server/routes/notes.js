@@ -33,7 +33,18 @@ router.get('/', authenticateToken, async (req, res) => {
   }
 });
 
-
+// Віддаємо нотатку у вигляді JSON
+router.get('/edit/:id', async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    const note = await Note.findById(noteId);
+    if (!note) return res.status(404).send('Нотатку не знайдено');
+    res.json(note);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Помилка сервера');
+  }
+});
 
 // Отримати нотатку за ID
 router.get('/:id', async (req, res) => {
@@ -97,18 +108,7 @@ router.put('/:id', async (req, res) => {
 
 
 
-// Віддаємо нотатку у вигляді JSON
-router.get('/edit/:id', async (req, res) => {
-  try {
-    const noteId = req.params.id;
-    const note = await Note.findById(noteId);
-    if (!note) return res.status(404).send('Нотатку не знайдено');
-    res.json(note);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Помилка сервера');
-  }
-});
+
 
 
 router.delete('/:id', async (req, res) => {
