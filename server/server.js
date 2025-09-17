@@ -34,14 +34,26 @@ app.get("/api/note", async (req, res) => {
   res.json(note);
 });
 
-// Підключення фронтенду для продакшн
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/build")));
+// // Підключення фронтенду для продакшн
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "../client/build")));
 
-  app.use((req, res, next) => {
-    res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+//   app.use((req, res, next) => {
+//     res.sendFile(path.join(__dirname, "../client/build", "index.html"));
+//   });
+// }
+
+
+if (process.env.NODE_ENV === "production") {
+  const clientPath = path.join(__dirname, "../client/build");
+  app.use(express.static(clientPath));
+
+  // Ловимо всі маршрути, які не починаються з /api
+  app.get(/^(?!\/api).*/, (req, res) => {
+    res.sendFile(path.join(clientPath, "index.html"));
   });
 }
+
 
 
 
