@@ -19,11 +19,17 @@ function Register() {
       return;
     }
 
-    const response = await fetch(`${API_BASE}/api/auth/login`, {
+    // const response = await fetch(`${API_BASE}/api/auth/login`, {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({ nickname, password }),
+    // });
+    const response = await fetch(`${API_BASE}/api/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nickname, password }),
     });
+
 
     if (response.ok) {
       const data = await response.json();
