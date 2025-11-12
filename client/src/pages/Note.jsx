@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate, useOutletContext } from 'react-router-dom';
 import './Note.css';
@@ -10,9 +9,15 @@ function Note() {
 
   const [note, setNote] = useState(null);
   const [newTitle, setNewTitle] = useState('');
-  const [content, setContent] = useState(''); // 👈 Контролюємо контент через state
+  const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (!loading && editorRef.current) {
+      editorRef.current.innerHTML = content;
+    }
+  }, [loading]);
 
   useEffect(() => {
     const fetchNote = async () => {
@@ -22,7 +27,7 @@ function Note() {
         const data = await res.json();
         setNote(data);
         setNewTitle(data.title);
-        setContent(data.content || ''); // 👈 Встановлюємо в state
+        setContent(data.content || '');
       } catch (err) {
         console.error('Помилка при завантаженні нотатки:', err);
       } finally {
@@ -85,73 +90,58 @@ function Note() {
 
   const applyFormat = (command) => {
     document.execCommand(command, false, null);
+    setContent(editorRef.current.innerHTML);
   };
 
-  const makeChecklist = () => {
-    const selection = window.getSelection();
-    if (!selection.rangeCount) return;
+const makeChecklist = () => {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) return;
 
-    const editor = editorRef.current;
-    if (!editor.contains(selection.anchorNode)) return;
+  const editor = editorRef.current;
+  if (!editor.contains(selection.anchorNode)) return;
 
-    const range = selection.getRangeAt(0);
-    const selectedFragment = range.cloneContents();
-    const container = document.createElement('div');
-    container.appendChild(selectedFragment);
+  const range = selection.getRangeAt(0);
+  let selectedNode = selection.anchorNode;
 
-    const containsOnlyChecklist =
-      container.querySelectorAll('ul.checklist').length > 0 &&
-      container.querySelectorAll('ul.checklist').length === container.children.length;
+  if (selectedNode.nodeType === Node.TEXT_NODE) {
+    selectedNode = selectedNode.parentElement;
+  }
 
-    if (containsOnlyChecklist) {
-      const listItems = container.querySelectorAll('ul.checklist li');
-      const lines = Array.from(listItems).map((li) => li.textContent.trim());
+  const existingChecklist = selectedNode.closest('ul.checklist');
+  if (existingChecklist) {
+    const listItems = existingChecklist.querySelectorAll('li');
+    const fragment = document.createDocumentFragment();
 
-      range.deleteContents();
-      const fragment = document.createDocumentFragment();
-      lines.forEach((line) => {
-        fragment.appendChild(document.createTextNode(line));
-        fragment.appendChild(document.createElement('br'));
-      });
-      range.insertNode(fragment);
-    } else {
-      const existingChecklist = container.querySelector('ul.checklist');
-      const listItems = [];
+    listItems.forEach((li, index) => {
+      const textNode = document.createTextNode(li.textContent.trim());
+      fragment.appendChild(textNode);
+      if (index < listItems.length - 1) fragment.appendChild(document.createElement('br'));
+    });
 
-      if (existingChecklist) {
-        existingChecklist.querySelectorAll('li').forEach((li) => {
-          const text = li.textContent.trim();
-          if (text) {
-            listItems.push(
-              `<li><input type="checkbox" onclick="this.parentNode.classList.toggle('checked')" ${
-                li.classList.contains('checked') ? 'checked' : ''
-              }> ${text}</li>`
-            );
-          }
-        });
-      }
+    existingChecklist.parentNode.replaceChild(fragment, existingChecklist);
+    setContent(editor.innerHTML);
+    return;
+  }
 
-      container.childNodes.forEach((node) => {
-        if (node.nodeType === 1 && (node.tagName === 'UL' || node.tagName === 'OL')) return;
-        const text = node.textContent?.trim();
-        if (text) {
-          listItems.push(`<li><input type="checkbox" onclick="this.parentNode.classList.toggle('checked')"> ${text}</li>`);
-        }
-      });
+  const selectedText = selection.toString().trim();
+  if (!selectedText) return;
 
-      if (listItems.length === 0) return;
+  const lines = selectedText.split(/\n|<br\s*\/?>/).filter(line => line.trim() !== '');
+  const listItems = lines.map(
+    line => `<li><input type="checkbox" onclick="this.parentNode.classList.toggle('checked')"> ${line.trim()}</li>`
+  );
 
-      const checklistHtml = `<ul class="checklist">${listItems.join('')}</ul>`;
-      range.deleteContents();
+  const checklistHtml = `<ul class="checklist">${listItems.join('')}</ul>`;
+  range.deleteContents();
 
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = checklistHtml;
-      const frag = document.createDocumentFragment();
-      let node;
-      while ((node = tempDiv.firstChild)) frag.appendChild(node);
-      range.insertNode(frag);
-    }
-  };
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = checklistHtml;
+  const frag = document.createDocumentFragment();
+  while (tempDiv.firstChild) frag.appendChild(tempDiv.firstChild);
+
+  range.insertNode(frag);
+  setContent(editor.innerHTML);
+};
 
   if (loading) return <p>Завантаження...</p>;
 
@@ -166,31 +156,20 @@ function Note() {
         className="note-input"
       />
       <div className="format-buttons">
-        <button onClick={() => applyFormat('bold')}>
-          <b>B</b>
-        </button>
-        <button onClick={() => applyFormat('italic')}>
-          <i>I</i>
-        </button>
-        <button onClick={() => applyFormat('underline')}>
-          <u>U</u>
-        </button>
+        <button onClick={() => applyFormat('bold')}><b>B</b></button>
+        <button onClick={() => applyFormat('italic')}><i>I</i></button>
+        <button onClick={() => applyFormat('underline')}><u>U</u></button>
         <button onClick={makeChecklist}>Список</button>
       </div>
       <div
         ref={editorRef}
         contentEditable
         className="note-editor"
-        dangerouslySetInnerHTML={{ __html: content }}
         onInput={(e) => setContent(e.currentTarget.innerHTML)}
         style={{ minHeight: '200px', border: '1px solid #ccc', padding: '10px', borderRadius: '5px' }}
       ></div>
-      <button onClick={handleSave} className="save-btn">
-        Зберегти
-      </button>
-      <button onClick={handleDelete} className="delete-btn">
-        Видалити
-      </button>
+      <button onClick={handleSave} className="save-btn">Зберегти</button>
+      <button onClick={handleDelete} className="delete-btn">Видалити</button>
     </div>
   );
 }
